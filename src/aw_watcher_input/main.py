@@ -63,8 +63,8 @@ def main(testing: bool, verbose: bool):
         pulsetime = 0.0
         if all(map(lambda v: v == 0, merged_data.values())):
             pulsetime = poll_time + 0.1
-            logger.info("No new input")
+            logger.debug("No new input")
         else:
-            logger.info(f"New input: {e}")
+            logger.debug(f"New input: {e}")
 
         client.heartbeat(bucket_name, e, pulsetime=pulsetime, queued=True)
