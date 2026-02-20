@@ -5,6 +5,7 @@ from time import sleep
 import aw_client
 import click
 from aw_core import Event
+from aw_core.log import setup_logging
 from aw_watcher_afk.listeners import KeyboardListener, MouseListener
 
 logger = logging.getLogger(__name__)
@@ -12,8 +13,15 @@ logger = logging.getLogger(__name__)
 
 @click.command()
 @click.option("--testing", is_flag=True)
-def main(testing: bool):
-    logging.basicConfig(level=logging.INFO)
+@click.option("--verbose", is_flag=True)
+def main(testing: bool, verbose: bool):
+    setup_logging(
+        "aw-watcher-input",
+        testing=testing,
+        verbose=verbose,
+        log_stderr=True,
+        log_file=True,
+    )
     logger.info("Starting watcher...")
     client = aw_client.ActivityWatchClient("aw-watcher-input", testing=testing)
     client.wait_for_start()
